@@ -7,3 +7,10 @@ export function loginService(userAccount, password) {
         data: { userAccount, password }
     })
 }
+
+export function getUserInfoService() {
+    return service({
+        url: "/sysUser/info",
+        method: "get",
+    });
+}
