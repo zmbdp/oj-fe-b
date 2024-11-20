@@ -1,5 +1,6 @@
 import axios from "axios";
-import { getToken } from './cookie'
+import { getToken, removeToken } from './cookie'
+import router from "../router";
 
 const service = axios.create({
     baseURL: "/dev-api",
@@ -21,13 +22,21 @@ service.interceptors.request.use(
 );
 
 
-
 // 设置响应拦截器
 service.interceptors.response.use(
     (res) => {
         const code = res.data.code;
         const msg = res.data.msg;
-        if (code !== 1000) {
+        if (code === 3001) {
+            ElMessage({
+                showClose: true,
+                message: msg,
+                type: 'error',
+            })
+            removeToken();
+            router.push('/oj/login')
+            return Promise.reject(new Error(msg));
+        } else if (code !== 1000) {
             ElMessage({
                 showClose: true,
                 message: msg,
