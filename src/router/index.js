@@ -39,16 +39,26 @@ const router = createRouter({
   ],
 })
 
-
+/**
+ * to => login 页面 跳转到 system 页面，to 就是 system
+ * from => 上面的例子 from 就是 login
+ * to 目标地址，from 是起始地址
+ * next: 表示是否要往下执行，执行的方式是怎样的，是一个函数
+ */
 router.beforeEach((to, from, next) => {
   if (getToken()) {
+    // 进到这里说明是有 token 的，未过期
     /* has token */
     if (to.path === '/oj/login') {
-      next({path: '/oj/system/cuser'})
+      // 有 token 就不用进登录页面了，直接去主页
+      next({
+        path: '/oj/system'
+      })
     } else {
       next()
     }
   } else {
+    // 没有 token 又不在登陆页就跳转
     if (to.path !== '/oj/login') {
       next({
         path: '/oj/login'
