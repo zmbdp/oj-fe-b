@@ -12,7 +12,7 @@
                 </span>
                 <template #dropdown>
                     <el-dropdown-menu>
-                        <el-dropdown-item :icon="SwitchButton">退出登录</el-dropdown-item>
+                        <el-dropdown-item @click="logout" :icon="SwitchButton">退出登录</el-dropdown-item>
                     </el-dropdown-menu>
                 </template>
             </el-dropdown>
@@ -53,10 +53,18 @@
 </template>
 
 <script setup>
-import { Management, ArrowDownBold, SwitchButton, UserFilled, Histogram } from '@element-plus/icons-vue'
+import {
+    Management,
+    ArrowDownBold,
+    SwitchButton,
+    UserFilled,
+    Histogram
+} from '@element-plus/icons-vue'
 import { RouterView } from 'vue-router';
-import { getUserInfoService } from '../apis/suser';
 import { reactive } from 'vue';
+import router from '../router';
+import { getUserInfoService, logoutService } from '../apis/suser';
+import { removeToken } from '../utils/cookie';
 
 const loginUser = reactive({
     nickName: '未获取到用户名'
@@ -67,6 +75,21 @@ async function getUserInfo() {
     loginUser.nickName = userInfo.data.nickName
 }
 getUserInfo()
+
+async function logout() {
+    await ElMessageBox.confirm(
+        '确认退出？',
+        '温馨提示',
+        {
+            confirmButtonText: '确认',
+            cancelButtonText: '取消',
+            type: 'warning',
+        }
+    )
+    await logoutService()
+    removeToken()
+    router.push("/oj/login")
+}
 
 
 </script>

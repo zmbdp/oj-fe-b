@@ -14,3 +14,10 @@ export function getUserInfoService() {
         method: "get",
     });
 }
+
+export function logoutService() {
+    return service({
+        url: "/sysUser/logout",
+        method: "delete",
+    });
+}

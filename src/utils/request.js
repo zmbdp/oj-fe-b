@@ -10,7 +10,6 @@ const service = axios.create({
 service.interceptors.request.use(
     (config) => {
         if (getToken()) {
-            console.log("进到 token 里面了" + getToken());
             config.headers["Authorization"] = "Bearer " + getToken();
         }
         return config;
@@ -36,7 +35,6 @@ service.interceptors.response.use(
             })
             return Promise.reject(new Error(msg));
         } else {
-            console.log("token是: " + res.data.data);
             return Promise.resolve(res.data);
         }
     },
