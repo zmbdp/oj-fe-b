@@ -1,6 +1,6 @@
 .el-table {
     th {
-        background-color: #32c5ff !important;
+        background-color: #32C5FF !important;
         color: #ffff;
     }
 }
@@ -9,9 +9,17 @@
     color: #32c5ff !important;
 }
 
-.el-button--test {
+.el-button--text {
     color: #32c5ff !important;
     &.red span{
-        color: #fd4c40;
+        color: #FD4C40;
+    }
+}
+
+.el-pagination {
+    margin: 20px;
+    justify-content: flex-end;
+    .el-pager li.is-active {
+        background-color: #32c5ff !important;
     }
 }

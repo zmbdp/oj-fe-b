@@ -1,14 +1,14 @@
 <template>
     <el-form inline="true">
         <el-form-item>
-            <selector placeholder="请选择题目难度" style="width: 200px;"></selector>
+            <selector v-model="params.difficulty" placeholder="请选择题目难度" style="width: 200px;"></selector>
         </el-form-item>
         <el-form-item>
-            <el-input placeholder="请您输入要搜索的题目标题" />
+            <el-input v-model="params.title" placeholder="请您输入要搜索的题目标题" />
         </el-form-item>
         <el-form-item>
-            <el-button plain :icon="Search">搜索</el-button>
-            <el-button plain type="info">重置</el-button>
+            <el-button plain @click="onSearch">搜索</el-button>
+            <el-button plain @click="onReset" type="info">重置</el-button>
             <el-button plain type="primary" :icon="Plus">添加题目</el-button>
         </el-form-item>
     </el-form>
@@ -27,15 +27,25 @@
         <el-table-column prop="createTime" label="创建时间" width="180px" />
         <el-table-column label="操作" width="100px" fixed="right">
             <el-button type="text">编辑</el-button>
-            <el-button type="text" class="red">删除</el-button>
+            <el-button class="red" type="text">删除</el-button>
         </el-table-column>
     </el-table>
+    <el-pagination background 
+    size="small" 
+    layout="total, sizes, prev, pager, next, jumper" 
+    :total="total" 
+    v-model:current-page="params.pageNum" 
+    v-model:page-size="params.pageSize"
+    :page-sizes="[1, 5, 10, 30, 50]"
+    @size-change="handleSizeChange"
+    @current-change="handleCurrentChange"
+    /> 
 </template>
 
 <script setup>
 import { Plus } from "@element-plus/icons-vue";
 import Selector from "@/components/question/QuestionSelector.vue";
-import { reactive, ref } from "vue";
+import { nextTick, reactive, ref } from "vue";
 import { getQuestionListService } from "../apis/question";
 
 const params = reactive({
@@ -44,13 +54,42 @@ const params = reactive({
     title: '',
     difficulty: ''
 })
-
 const questionList = ref([])
+const total = ref(0)
 
 async function getQuestionList() {
     const result = await getQuestionListService(params)
     questionList.value = result.rows
+    total.value = result.total
 }
 getQuestionList()
+
+function handleSizeChange(newSize) {
+    // 设置一页的个数
+    // params.pageSize = newSize
+    params.pageNum = 1
+    getQuestionList()
+}
+
+function handleCurrentChange(newPage) {
+    // 选择第几页
+    // params.pageNum = newPage
+    getQuestionList()
+}
+
+function onSearch() {
+    // 搜索按钮的方法
+    params.pageNum = 1
+    getQuestionList()
+}
+
+function onReset() {
+    // 重置按钮的方法
+    params.pageNum = 1
+    params.pageSize = 10
+    params.title = ""
+    params.difficulty = ""
+    getQuestionList()
+}
 
 </script>
