@@ -45,7 +45,13 @@
                     </el-menu>
                 </el-aside>
             </div>
-            <div class="right">
+            <div class="right" :class="{'image-background': isExactSystemRoute}">
+                <!-- 图片区域 -->
+                <div v-if="isExactSystemRoute" class="image-container">
+                    <img src="../assets/images/beiJing.png" alt="示例图片" class="background-image" />
+                    <span class="image-text">LaatCode后台管理</span>
+                </div>
+                <!-- 路由视图 -->
                 <RouterView />
             </div>
         </el-main>
@@ -59,23 +65,25 @@ import {
     SwitchButton,
     UserFilled,
     Histogram
-} from '@element-plus/icons-vue'
+} from '@element-plus/icons-vue';
 import { RouterView } from 'vue-router';
-import { reactive } from 'vue';
+import { reactive, computed } from 'vue';
 import router from '../router';
 import { getUserInfoService, logoutService } from '../apis/suser';
 import { removeToken } from '../utils/cookie';
 
+// 用户信息
 const loginUser = reactive({
-    nickName: '未获取到用户名'
-})
+    nickName: '未获取到用户名',
+});
 
 async function getUserInfo() {
-    const userInfo = await getUserInfoService()
-    loginUser.nickName = userInfo.data.nickName
+    const userInfo = await getUserInfoService();
+    loginUser.nickName = userInfo.data.nickName;
 }
-getUserInfo()
+getUserInfo();
 
+// 退出登录
 async function logout() {
     await ElMessageBox.confirm(
         '确认退出？',
@@ -85,13 +93,17 @@ async function logout() {
             cancelButtonText: '取消',
             type: 'warning',
         }
-    )
-    await logoutService()
-    removeToken()
-    router.push("/oj/login")
+    );
+    await logoutService();
+    removeToken();
+    router.push('/oj/login');
 }
 
-
+// 计算属性：判断当前路由是否为 /oj/system 并排除子路由
+const isExactSystemRoute = computed(() => {
+    const path = router.currentRoute.value.path;
+    return path === '/oj/system';
+});
 </script>
 
 <style lang="scss" scoped>
@@ -115,11 +127,15 @@ async function logout() {
 
                 .el-menu-item.is-active {
                     color: #32c5ff;
+                    font-weight: bold;
+                    background-color: #e6f7ff;
+                   // 激活背景色
                 }
 
                 .el-menu-item:hover {
-                    background: #fff;
                     color: #32c5ff;
+                    background-color: rgba(50, 197, 255, 0.1);
+                    transition: background-color 0.3s ease;
                 }
             }
         }
@@ -129,16 +145,42 @@ async function logout() {
             overflow-y: auto;
             background: #fff;
             padding: 20px;
+
+            &.image-background {
+                .image-container {
+                    position: relative;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 100%;
+                    height: 100%;
+                    overflow: hidden;
+                    margin-bottom: 20px;
+
+                    .background-image {
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                        border-radius: 10px;
+                        opacity: 0.8;// 设置图片透明度，范围 0（完全透明）到 1（完全不透明）
+                        transition: opacity 0.5s ease;// 添加动画效果
+                    }
+
+                    .image-text {
+                        position: absolute;
+                        color: #fff;
+                        font-size: 34px;
+                        font-weight: bold;
+                        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+                        opacity: 0.9;// 设置文字透明度
+                    }
+                }
+            }
         }
     }
 
     .el-aside {
         background-color: #fff;
-
-        &__logo {
-            height: 120px;
-            // background: url('@/assets/logo.png') no-repeat center / 120px auto;
-        }
 
         .el-menu {
             border-right: none;
