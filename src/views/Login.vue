@@ -7,7 +7,7 @@
       <div class="logo-box">
         <div class="right">
           <div class="sys-name">LaatCode-后台管理</div>
-          <div class="sys-sub-name">先刷一百题</div>
+          <div class="sys-sub-name">先刷一千题</div>
         </div>
       </div>
       <div class="form-box">

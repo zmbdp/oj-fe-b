@@ -9,7 +9,7 @@
         <el-form-item>
             <el-button plain @click="onSearch">搜索</el-button>
             <el-button plain @click="onReset" type="info">重置</el-button>
-            <el-button plain type="primary" :icon="Plus">添加题目</el-button>
+            <el-button plain type="primary" :icon="Plus" @click="onAddQuestion">添加题目</el-button>
         </el-form-item>
     </el-form>
 
@@ -26,27 +26,24 @@
         <el-table-column prop="createName" label="创建人" width="140px" />
         <el-table-column prop="createTime" label="创建时间" width="180px" />
         <el-table-column label="操作" width="100px" fixed="right">
-            <el-button type="text">编辑</el-button>
-            <el-button class="red" type="text">删除</el-button>
+            <template #default="{ row }">
+                <el-button type="text" @click="onEdit(row.questionId)">编辑</el-button>
+                <el-button class="red" type="text" @click="onDelete(row.questionId)">删除</el-button>
+            </template>
         </el-table-column>
     </el-table>
-    <el-pagination background 
-    size="small" 
-    layout="total, sizes, prev, pager, next, jumper" 
-    :total="total" 
-    v-model:current-page="params.pageNum" 
-    v-model:page-size="params.pageSize"
-    :page-sizes="[1, 5, 10, 30, 50]"
-    @size-change="handleSizeChange"
-    @current-change="handleCurrentChange"
-    /> 
+    <el-pagination background size="small" layout="total, sizes, prev, pager, next, jumper" :total="total"
+        v-model:current-page="params.pageNum" v-model:page-size="params.pageSize" :page-sizes="[5, 10, 30, 50]"
+        @size-change="handleSizeChange" @current-change="handleCurrentChange" />
+    <question-drawer ref="questionDrawerRef" @success="onSuccess"></question-drawer>
 </template>
 
 <script setup>
 import { Plus } from "@element-plus/icons-vue";
 import Selector from "@/components/question/QuestionSelector.vue";
-import { nextTick, reactive, ref } from "vue";
-import { getQuestionListService } from "../apis/question";
+import { reactive, ref } from "vue";
+import { getQuestionListService, delQuestionService } from "../apis/question";
+import QuestionDrawer from "../components/question/QuestionDrawer.vue";
 
 const params = reactive({
     pageNum: 1,
@@ -89,6 +86,29 @@ function onReset() {
     params.pageSize = 10
     params.title = ""
     params.difficulty = ""
+    getQuestionList()
+}
+
+const questionDrawerRef = ref()
+
+const onAddQuestion = () => {
+    questionDrawerRef.value.open()
+}
+
+function onSuccess(service) {
+    if (service === 'add') {
+        params.pageNum = 1
+    }
+    getQuestionList()
+}
+
+async function onEdit(questionId) {
+    questionDrawerRef.value.open(questionId)
+}
+
+async function onDelete(questionId) {
+    await delQuestionService(questionId)
+    params.pageNum = 1
     getQuestionList()
 }
 
