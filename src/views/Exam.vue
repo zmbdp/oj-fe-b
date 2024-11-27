@@ -80,8 +80,9 @@
 
 <script setup>
 import { Plus } from '@element-plus/icons-vue';
-import { getExamListService } from '../apis/exam';
+import { getExamListService, delExamService, publishExamService, cancelPublishExamService } from '../apis/exam';
 import { reactive, ref } from 'vue';
+import router from '../router';
 
 // 判断竞赛是否未开始
 function isNotStartExam(exam) {
@@ -140,6 +141,30 @@ function onReset() {
     params.endTime = ""
     dateTimeRange.value.length = 0
     getExamList()
+}
+
+function onAddExam() {
+    router.push("/oj/system/updateExam?type=add")
+}
+
+async function onEdit(examId) {
+  router.push(`/oj/system/updateExam?type=edit&examId=${examId}`)
+}
+
+async function onDelete(examId) {
+  await delExamService(examId)
+  params.pageNum = 1
+  getExamList()
+}
+
+async function publishExam(examId) {
+  await publishExamService(examId)
+  getExamList()
+}
+
+async function cancelPublishExam(examId) {
+  await cancelPublishExamService(examId)
+  getExamList()
 }
 
 

@@ -53,11 +53,11 @@
 
 <script setup>
 import { QuillEditor } from '@vueup/vue-quill';
-import '../../../node_modules/@vueup/vue-quill/dist/vue-quill.snow.css'
+import '../../node_modules/@vueup/vue-quill/dist/vue-quill.snow.css'
 import CodeEditor from './CodeEditor.vue'
 import QuestionSelector from './QuestionSelector.vue';
 import { ref, reactive } from 'vue';
-import { addQuestionService, getQuestionDetailService, editQuestionService } from '../../apis/question';
+import { addQuestionService, getQuestionDetailService, editQuestionService } from '../apis/question';
 
 const visibleDrawer = ref(false)
 

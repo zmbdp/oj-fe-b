@@ -68,9 +68,9 @@ import {
 } from '@element-plus/icons-vue';
 import { RouterView } from 'vue-router';
 import { reactive, computed } from 'vue';
-import router from '../router';
-import { getUserInfoService, logoutService } from '../apis/suser';
-import { removeToken } from '../utils/cookie';
+import router from '@/router';
+import { getUserInfoService, logoutService } from '@/apis/suser';
+import { removeToken } from '@/utils/cookie';
 
 // 用户信息
 const loginUser = reactive({

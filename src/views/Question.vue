@@ -40,10 +40,10 @@
 
 <script setup>
 import { Plus } from "@element-plus/icons-vue";
-import Selector from "@/components/question/QuestionSelector.vue";
+import Selector from "@/components/QuestionSelector.vue";
 import { reactive, ref } from "vue";
-import { getQuestionListService, delQuestionService } from "../apis/question";
-import QuestionDrawer from "../components/question/QuestionDrawer.vue";
+import { getQuestionListService, delQuestionService } from "@/apis/question";
+import QuestionDrawer from "@/components/QuestionDrawer.vue";
 
 const params = reactive({
     pageNum: 1,
