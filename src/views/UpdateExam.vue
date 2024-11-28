@@ -217,6 +217,7 @@
   
   function handleRowSelect(selection) {
     questionIdSet.value = []
+    console.log(element)
     selection.forEach(element => {
       questionIdSet.value.push(element.questionId)
     });
