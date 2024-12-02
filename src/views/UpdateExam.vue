@@ -104,7 +104,7 @@
 
       <!-- 提交任务区域 -->
       <div class="submit-box absolute">
-        <el-button type="info" plain @click="goBack">取消</el-button>
+        <el-button type="info" plain @click="goBack">暂不发布</el-button>
         <el-button type="primary" plain @click="publishExam">发布竞赛</el-button>
       </div>
     </div>
@@ -126,6 +126,7 @@ import router from '@/router'
 import { reactive, ref } from "vue"
 import { Plus } from '@element-plus/icons-vue'
 import { useRoute } from 'vue-router';
+import { ElMessage } from "element-plus"
 
 const type = useRoute().query.type
 const formExam = reactive({
@@ -148,23 +149,33 @@ function goBack() {
 }
 
 async function saveBaseInfo() {
-  const fd = new FormData()
-  for (let key in formExam) {
-    if (key === 'examDate') {
-      fd.append('startTime', formExam.examDate[0]);
-      fd.append('endTime', formExam.examDate[1]);
-    } else if (key !== 'startTime' && key !== 'endTime') {
-      fd.append(key, formExam[key])
-    }
-  }
-  if (formExam.examId) {
-    //编辑
-    await editExamService(fd)
+  if (formExam.title == null || formExam.title == "") {
+    ElMessage.error("请输入标题")
+  } else if (
+    formExam.examDate == null || formExam.examDate == "" ||
+    formExam.examDate[0] == "" || formExam.examDate[0] == null ||
+    formExam.examDate[1] == "" || formExam.examDate[1] == null
+  ) {
+    ElMessage.error("请选择竞赛时间")
   } else {
-    const addRes = await examAddService(fd)
-    formExam.examId = addRes.data
+    const fd = new FormData()
+    for (let key in formExam) {
+      if (key === 'examDate') {
+        fd.append('startTime', formExam.examDate[0]);
+        fd.append('endTime', formExam.examDate[1]);
+      } else if (key !== 'startTime' && key !== 'endTime') {
+        fd.append(key, formExam[key])
+      }
+    }
+    if (formExam.examId) {
+      //编辑
+      await editExamService(fd)
+    } else {
+      const addRes = await examAddService(fd)
+      formExam.examId = addRes.data
+    }
+    ElMessage.success('基本信息保存成功')
   }
-  ElMessage.success('基本信息保存成功')
 }
 
 const questionList = ref([])
