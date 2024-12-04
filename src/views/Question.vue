@@ -4,7 +4,7 @@
             <selector v-model="params.difficulty" placeholder="请选择题目难度" style="width: 200px;"></selector>
         </el-form-item>
         <el-form-item>
-            <el-input v-model="params.title" placeholder="请您输入要搜索的题目标题" />
+            <el-input v-model="params.title" placeholder="请输入题目标题" />
         </el-form-item>
         <el-form-item>
             <el-button plain @click="onSearch">搜索</el-button>
@@ -14,7 +14,7 @@
     </el-form>
 
     <el-table height="526px" :data="questionList">
-        <el-table-column prop="questionId" width="180px" label="题目id" />
+        <el-table-column prop="questionId" width="180px" label="题目ID" />
         <el-table-column prop="title" label="题目标题" />
         <el-table-column prop="difficulty" label="题目难度" width="90px">
             <template #default="{ row }">

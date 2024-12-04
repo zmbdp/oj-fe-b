@@ -11,7 +11,8 @@
 
 .el-button--text {
     color: #32c5ff !important;
-    &.red span{
+
+    &.red span {
         color: #FD4C40;
     }
 }
@@ -19,7 +20,16 @@
 .el-pagination {
     margin: 20px;
     justify-content: flex-end;
+
     .el-pager li.is-active {
         background-color: #32c5ff !important;
     }
+}
+
+.el-table .cell {
+    text-align: center;
+}
+
+.block-span {
+    display: block; /* 确保每个 span 在新的一行显示 */
 }

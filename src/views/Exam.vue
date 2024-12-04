@@ -5,7 +5,7 @@
                 start-placeholder="开始日期" end-placeholder="结束日期"></el-date-picker>
         </el-form-item>
         <el-form-item label="竞赛名称">
-            <el-input v-model="params.title" placeholder="请您输入要搜索的竞赛名称" />
+            <el-input v-model="params.title" placeholder="请输入竞赛名称" />
         </el-form-item>
         <el-form-item>
             <el-button @click="onSearch" plain>搜索</el-button>
@@ -38,9 +38,9 @@
                 </div>
             </template>
         </el-table-column>
-        <el-table-column prop="createName" width="140px" label="创建用户" />
+        <el-table-column prop="createName" width="100px" label="创建用户" />
         <el-table-column prop="createTime" width="180px" label="创建时间" />
-        <el-table-column label="操作" width="180px">
+        <el-table-column label="操作" width="160px">
             <template #default="{ row }">
                 <el-button v-if="isNotStartExam(row) && row.status == 0" type="text" @click="onEdit(row.examId)">编辑
                 </el-button>

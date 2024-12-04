@@ -40,7 +40,7 @@
           添加题目
         </el-button>
         <el-table height="300px" :data="formExam.examQuestionList" class="question-select-list">
-          <el-table-column prop="questionId" width="180px" label="题目id" />
+          <el-table-column prop="questionId" width="180px" label="题目ID" />
           <el-table-column prop="title" :show-overflow-tooltip="true" label="题目标题" />
           <el-table-column prop="difficulty" width="80px" label="题目难度">
             <template #default="{ row }">
@@ -68,7 +68,7 @@
                 <selector v-model="params.difficulty" style="width: 120px;"></selector>
               </el-form-item>
               <el-form-item label="题目名称">
-                <el-input v-model="params.title" placeholder="请您输入要搜索的题目标题" />
+                <el-input v-model="params.title" placeholder="请输入题目标题" />
               </el-form-item>
               <el-form-item>
                 <el-button @click="onSearch" plain>搜索</el-button>
@@ -79,7 +79,7 @@
             <!-- 题目列表 -->
             <el-table :data="questionList" @select="handleRowSelect">
               <el-table-column type="selection"></el-table-column>
-              <el-table-column prop="questionId" label="题目id" />
+              <el-table-column prop="questionId" label="题目ID" />
               <el-table-column prop="title" label="题目标题" />
               <el-table-column prop="difficulty" label="题目难度">
                 <template #default="{ row }">
