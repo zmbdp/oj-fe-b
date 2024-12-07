@@ -5,7 +5,7 @@
             <el-input v-model="params.userId" placeholder="请输入用户ID" />
         </el-form-item>
         <el-form-item label="用户昵称">
-            <el-input v-model="params.nickName" placeholder="请输入用户昵称" />
+            <el-input v-model="params.nickName" placeholder="请输入用户昵称(不分大小写)" />
         </el-form-item>
         <el-form-item>
             <el-button @click="onSearch" plain>搜索</el-button>
