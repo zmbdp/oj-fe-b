@@ -49,7 +49,7 @@
     </el-table>
     <!-- 分页区域 -->
     <el-pagination background size="small" layout="total, sizes, prev, pager, next, jumper" :total="total"
-        v-model:current-page="params.pageNum" v-model:page-size="params.pageSize" :page-sizes="[5, 10, 15, 20]"
+        v-model:current-page="params.pageNum" v-model:page-size="params.pageSize" :page-sizes="[5, 10, 30, 50]"
         @size-change="handleSizeChange" @current-change="handleCurrentChange" />
 </template>
 
