@@ -93,7 +93,7 @@
             <div class="exam-question-list-button">
               <el-pagination background size="small" layout="total, sizes, prev, pager, next, jumper" :total="total"
                 v-model:current-page="params.pageNum" v-model:page-size="params.pageSize"
-                :page-sizes="[1, 5, 10, 15, 20]" @size-change="handleSizeChange"
+                :page-sizes="[5, 10, 30, 50]" @size-change="handleSizeChange"
                 @current-change="handleCurrentChange" />
               <el-button class="question-select-submit" type="primary" plain
                 @click="submitSelectQuestion">提交</el-button>
